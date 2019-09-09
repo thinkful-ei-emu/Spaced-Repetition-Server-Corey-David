@@ -10,6 +10,7 @@ describe('Auth Endpoints', function () {
 
   before('make knex instance', () => {
     db = helpers.makeKnexInstance()
+    console.log(db.host);
     app.set('db', db)
   })
 
