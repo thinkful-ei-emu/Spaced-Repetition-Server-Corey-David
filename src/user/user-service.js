@@ -1,53 +1,53 @@
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
 
-const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/
+const REGEX_UPPER_LOWER_NUMBER_SPECIAL = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&])[\S]+/;
 
 const UserService = {
   hasUserWithUserName(db, username) {
     return db('user')
       .where({ username })
       .first()
-      .then(user => !!user)
+      .then(user => !!user);
   },
   insertUser(db, newUser) {
     return db
       .insert(newUser)
       .into('user')
       .returning('*')
-      .then(([user]) => user)
+      .then(([user]) => user);
   },
   validatePassword(password) {
     if (password.length < 8) {
-      return 'Password be longer than 8 characters'
+      return 'Password be longer than 8 characters';
     }
     if (password.length > 72) {
-      return 'Password be less than 72 characters'
+      return 'Password be less than 72 characters';
     }
     if (password.startsWith(' ') || password.endsWith(' ')) {
-      return 'Password must not start or end with empty spaces'
+      return 'Password must not start or end with empty spaces';
     }
     if (!REGEX_UPPER_LOWER_NUMBER_SPECIAL.test(password)) {
-      return 'Password must contain one upper case, lower case, number and special character'
+      return 'Password must contain one upper case, lower case, number and special character';
     }
-    return null
+    return null;
   },
   hashPassword(password) {
-    return bcrypt.hash(password, 12)
+    return bcrypt.hash(password, 12);
   },
   serializeUser(user) {
     return {
       id: user.id,
       name: user.name,
       username: user.username,
-    }
+    };
   },
   populateUserWords(db, user_id) {
     return db.transaction(async trx => {
       const [languageId] = await trx
         .into('language')
         .insert([
-          { name: 'French', user_id },
-        ], ['id'])
+          { name: 'German', user_id },
+        ], ['id']);
 
       // when inserting words,
       // we need to know the current sequence number
@@ -55,18 +55,18 @@ const UserService = {
       const seq = await db
         .from('word_id_seq')
         .select('last_value')
-        .first()
+        .first();
 
       const languageWords = [
-        ['entraine toi', 'practice', 2],
-        ['bonjour', 'hello', 3],
-        ['maison', 'house', 4],
-        ['développeur', 'developer', 5],
-        ['traduire', 'translate', 6],
-        ['incroyable', 'amazing', 7],
-        ['chien', 'dog', 8],
-        ['chat', 'cat', null],
-      ]
+        ['Ja', 'Yes', 2],
+        ['Nein', 'No', 3],
+        ['Bitte', 'Please', 4],
+        ['Danke', 'Thank You', 5],
+        ['Vielen Dank', 'Thank you very much', 6],
+        ['Hallo', 'Hello', 7],
+        ['Guten Morgen', 'Good Morning', 8],
+        ['Guten Tag', 'Good Day', null],
+      ];
 
       const [languageHeadId] = await trx
         .into('word')
@@ -80,15 +80,15 @@ const UserService = {
               : null
           })),
           ['id']
-        )
+        );
 
       await trx('language')
         .where('id', languageId.id)
         .update({
           head: languageHeadId.id,
-        })
-    })
+        });
+    });
   },
-}
+};
 
-module.exports = UserService
+module.exports = UserService;
