@@ -27,8 +27,10 @@ VALUES
   (4, 1, 'Danke', 'Thank You', 5),
   (5, 1, 'Vielen Dank', 'Thank you very much', 6),
   (6, 1, 'Hallo', 'Hello', 7),
-  (7, 1, 'Guten Morgen', 'Good Morning', 8),
-  (8, 1, 'Guten Tag', 'Good Day', null);
+  (7, 1, 'Morgen', 'Morning', 8),
+  (8, 1, 'Willkommen', 'Welcome', 9),
+  (9, 1, 'Guten', 'Good', 10),
+  (10, 1, 'Tag', 'Day', null);
 
 UPDATE "language" SET head = 1 WHERE id = 1;
 

@@ -179,10 +179,12 @@ describe('User Endpoints', function () {
             { original: 'Nein', translation: 'No' },
             { original: 'Bitte', translation: 'Please' },
             { original: 'Danke', translation: 'Thank You' },
-            { original: 'Vielen Dank', translation: 'Thank you very much' },
+            { original: 'Vielen Dank', translation: 'Thank You Very Much' },
             { original: 'Hallo', translation: 'Hello' },
-            { original: 'Guten Morgen', translation: 'Good Morning' },
-            { original: 'Guten Tag', translation: 'Good Day' },
+            { original: 'Morgen', translation: 'Mourning' },
+            { original: 'Willkommen', translation: 'Welcome' },
+            { original: 'Guten', translation: 'Good' },
+            { original: 'Tag', translation: 'Day' },
           ]
         };
         return supertest(app)

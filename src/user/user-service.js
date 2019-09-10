@@ -62,10 +62,12 @@ const UserService = {
         ['Nein', 'No', 3],
         ['Bitte', 'Please', 4],
         ['Danke', 'Thank You', 5],
-        ['Vielen Dank', 'Thank you very much', 6],
+        ['Vielen Dank', 'Thank You Very Much', 6],
         ['Hallo', 'Hello', 7],
-        ['Guten Morgen', 'Good Morning', 8],
-        ['Guten Tag', 'Good Day', null],
+        ['Morgen', 'Mourning', 8],
+        ['Willkommen', 'Welcome', 9],
+        ['Guten','Good',10],
+        ['Tag','Day',null]
       ];
 
       const [languageHeadId] = await trx
