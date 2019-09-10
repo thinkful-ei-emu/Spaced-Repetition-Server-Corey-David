@@ -26,7 +26,7 @@ languageRouter
   });
 
 languageRouter
-  .get('/', async (req, res, next) => {
+  .get('/', async (req, res, next) => {//returns all words that user is learning
     try {
       const words = await LanguageService.getLanguageWords(
         req.app.get('db'),
@@ -44,13 +44,13 @@ languageRouter
   });
 
 languageRouter
-  .get('/head', async (req, res, next) => {
+  .get('/head', async (req, res, next) => {//? return current word user is learning?
     // implement me
     res.send('implement me!');
   });
 
 languageRouter
-  .post('/guess', async (req, res, next) => {
+  .post('/guess', async (req, res, next) => {//user submits a guess
     // implement me
     res.send('implement me!');
   });
