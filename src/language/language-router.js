@@ -45,8 +45,15 @@ languageRouter
 
 languageRouter
   .get('/head', async (req, res, next) => {//? return current word user is learning?
-    // implement me
-    res.send('implement me!');
+
+    LanguageService.getNextWord(req.app.get('db'),req.user.id)
+      .then(result=>{
+        //todo check if valid response
+
+        result.totalScore = result.wordCorrectCount + result.wordIncorrectCount;
+        return res.status(200).json(result);
+
+      }).catch(error=>next(error));
   });
 
 languageRouter
