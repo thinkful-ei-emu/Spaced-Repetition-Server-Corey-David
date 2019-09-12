@@ -73,7 +73,7 @@ languageRouter
       }
       else{
         currentWord.memory_value = 1;
-        currentWord.correct_count++;
+        currentWord.incorrect_count++;
       }
 
       let n = currentWord.id;
