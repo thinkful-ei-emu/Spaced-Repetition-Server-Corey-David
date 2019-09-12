@@ -58,21 +58,26 @@ languageRouter
 languageRouter
   .post('/guess',parser, async (req, res, next) => {//user submits a guess
     let db = req.app.get('db');
-    let {nextWord,wordCorrectCount,wordIncorrectCount,totalScore,answer,isCorrect} = req.body;
-    //todo check if everything is there
+    let {guess, currentWord} = req.body;
+    let isCorrect;
+    if(!guess || !currentWord)
+      return res.status(400).json({error:'Missing Guess or Current Word'});
     try{
-      let currentWord = await LanguageService.getWordByOriginal(req.app.get('db'),req.language.id,nextWord);
-      await LanguageService.setHead(req.app.get('db'),req.language.id,currentWord.next);
-
-      if(isCorrect)
+      currentWord = await LanguageService.getWordByOriginal(req.app.get('db'),req.language.id,currentWord);
+      await LanguageService.setHead(req.app.get('db'),req.language.id,currentWord.next);//set head to next word
+      isCorrect = currentWord.translation.toLowerCase() === guess.toLowerCase();
+      if(isCorrect){
         currentWord.memory_value *= 2;
-      else
+        currentWord.correct_count++;
+      }
+      else{
         currentWord.memory_value = 1;
+        currentWord.correct_count++;
+      }
 
       let n = currentWord.id;
       let insert;
-      debugger;
-      for(let x = 0; x < currentWord.memory_value;x++){
+      for(let x = 0; x < currentWord.memory_value;x++){// move word forward M spaces 
         insert =  await LanguageService.getNextWord(db,n);
         n = insert.id;
       }
@@ -88,6 +93,7 @@ languageRouter
       .then(result=>{
       //todo check if valid response
         result.totalScore = result.wordCorrectCount + result.wordIncorrectCount;
+        result.isCorrect = isCorrect;
         return res.status(200).json(result);
 
       }).catch(error=>next(error));
