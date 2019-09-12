@@ -58,12 +58,14 @@ languageRouter
 languageRouter
   .post('/guess',parser, async (req, res, next) => {//user submits a guess
     let db = req.app.get('db');
-    let {guess, currentWord} = req.body;
+    let {guess} = req.body;
     let isCorrect;
-    if(!guess || !currentWord)
-      return res.status(400).json({error:'Missing Guess or Current Word'});
+    debugger;
+    if(!guess)
+      return res.status(400).json({error:'Missing Guess'});
     try{
-      currentWord = await LanguageService.getWordByOriginal(req.app.get('db'),req.language.id,currentWord);
+      let head = await LanguageService.getHeadWord(db,req.user.id)
+      let currentWord = await LanguageService.getWordByOriginal(db,req.language.id,head.nextWord);
       await LanguageService.setHead(req.app.get('db'),req.language.id,currentWord.next);//set head to next word
       isCorrect = currentWord.translation.toLowerCase() === guess.toLowerCase();
       if(isCorrect){
