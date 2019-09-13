@@ -101,7 +101,7 @@ languageRouter
         result.totalScore = result.wordCorrectCount + result.wordIncorrectCount;
         result.answer = currentWord.translation;
         result.isCorrect = isCorrect;
-        if(!result.nextWord)
+        if(result === undefined)
           return res.status(410).json(result);
         return res.status(200).json(result);
 
