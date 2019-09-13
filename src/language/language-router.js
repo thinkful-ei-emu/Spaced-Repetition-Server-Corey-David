@@ -49,7 +49,8 @@ languageRouter
     LanguageService.getHeadWord(req.app.get('db'),req.user.id)
       .then(result=>{
         //todo check if valid response
-        result.totalScore = result.wordCorrectCount + result.wordIncorrectCount;
+        if(!result.nextWord)
+          return res.status(410).json(result);
         return res.status(200).json(result);
 
       }).catch(error=>next(error));
@@ -94,9 +95,12 @@ languageRouter
     LanguageService.getHeadWord(req.app.get('db'),req.user.id)
       .then(result=>{
       //todo check if valid response
+        
         result.totalScore = result.wordCorrectCount + result.wordIncorrectCount;
         result.answer = currentWord.translation;
         result.isCorrect = isCorrect;
+        if(!result.nextWord)
+          return res.status(410).json(result);
         return res.status(200).json(result);
 
       }).catch(error=>next(error));

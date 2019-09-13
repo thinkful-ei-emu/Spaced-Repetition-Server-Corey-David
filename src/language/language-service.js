@@ -34,7 +34,7 @@ const LanguageService = {
   getHeadWord(db,user_id){//returns word corrently set as head
     return db('language')
       .innerJoin('word','language.head','word.id' )
-      .select('original as nextWord','next','correct_count as wordCorrectCount', 'incorrect_count as wordIncorrectCount')
+      .select('original as nextWord','next','language.total_score as totalScore','correct_count as wordCorrectCount', 'incorrect_count as wordIncorrectCount')
       .where('language.user_id',user_id).first();
   },
   setHead(db,language_id,next_id){
@@ -51,6 +51,9 @@ const LanguageService = {
   },
   updateWord(db,id,newWord){
     return db('word').update(newWord).where({id});
+  },
+  updateLanguage(db,id,newLang){
+    return db('language').update(newLang).where({id});
   }
 };
 
