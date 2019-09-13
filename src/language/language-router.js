@@ -49,7 +49,7 @@ languageRouter
     LanguageService.getHeadWord(req.app.get('db'),req.user.id)
       .then(result=>{
         //todo check if valid response
-        if(!result.nextWord)
+        if(result === undefined)
           return res.status(410).json(result);
         return res.status(200).json(result);
 
@@ -66,6 +66,8 @@ languageRouter
       return res.status(400).json({error:'Missing Guess'});
     try{
       let head = await LanguageService.getHeadWord(db,req.user.id);
+      if(head.nextWord)
+        return res.status(410).json(head);
       currentWord = await LanguageService.getWordByOriginal(db,req.language.id,head.nextWord);
       await LanguageService.setHead(req.app.get('db'),req.language.id,currentWord.next);//set head to next word
       isCorrect = currentWord.translation.toLowerCase() === guess.toLowerCase();
