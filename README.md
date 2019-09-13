@@ -1,69 +1,25 @@
 # Spaced repetition API!
 
+## endpoints
+root https://protected-ravine-87000.herokuapp.com/api/
+### AUTH
+- `POST` /auth/token req`{username, password }` returns `{authToken: encodeToken}` used to login
+
+### Language
+- `POST` language/guess req `{guess}` returns   `{"nextWord": "test-next-word-from-correct-guess", "wordCorrectCount":111,"wordIncorrectCount": 222,"totalScore": 333,"answer":"test-answer-from-correct-guess","isCorrect": true} `- make a gusee and return the wether u were right or wrong aswell as next question
+
+- `GET` language/head returns `{"nextWord": "test-next-word-from-correct-guess", "wordCorrectCount":111,"wordIncorrectCount": 222,"totalScore": 333,"answer":"test-answer-from-correct-guess","isCorrect": true} `- returns current head
+
+### User
+- `POST` user/ req `{ password, username, name }` returns 201 code and location of user
 
 
 
+# Deploying APP
+1) Ensure that postgrator-cli is in dependecies so that migration will happen automatically
+2) open control panel on HEROKU.COM and input all .env file varibles using heroku provided credintials
 
+$heroku login
+$heroku create
+npm run deploy -deploy will automatically audit packages and run migration files
 
-
-
-
-
-
-
-
-
-
-
-
-
-## Local dev setup
-
-If using user `dunder-mifflin`:
-
-```bash
-mv example.env .env
-createdb -U dunder-mifflin spaced-repetition
-createdb -U dunder-mifflin spaced-repetition-test
-```
-
-If your `dunder-mifflin` user has a password be sure to set it in `.env` for all appropriate fields. Or if using a different user, update appropriately.
-
-```bash
-npm install
-npm run migrate
-env MIGRATION_DB_NAME=spaced-repetition-test npm run migrate
-```
-
-And `npm test` should work at this point
-
-## Configuring Postgres
-
-For tests involving time to run properly, configure your Postgres database to run in the UTC timezone.
-
-1. Locate the `postgresql.conf` file for your Postgres installation.
-   1. E.g. for an OS X, Homebrew install: `/usr/local/var/postgres/postgresql.conf`
-   2. E.g. on Windows, _maybe_: `C:\Program Files\PostgreSQL\11.2\data\postgresql.conf`
-   3. E.g  on Ubuntu 18.04 probably: '/etc/postgresql/10/main/postgresql.conf'
-2. Find the `timezone` line and set it to `UTC`:
-
-```conf
-# - Locale and Formatting -
-
-datestyle = 'iso, mdy'
-#intervalstyle = 'postgres'
-timezone = 'UTC'
-#timezone_abbreviations = 'Default'     # Select the set of available time zone
-```
-
-## Scripts
-
-Start the application `npm start`
-
-Start nodemon for the application `npm run dev`
-
-Run the tests mode `npm test`
-
-Run the migrations up `npm run migrate`
-
-Run the migrations down `npm run migrate -- 0`
