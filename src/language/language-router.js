@@ -66,7 +66,7 @@ languageRouter
       return res.status(400).json({error:'Missing Guess'});
     try{
       let head = await LanguageService.getHeadWord(db,req.user.id);
-      if(head.nextWord)
+      if(!head.nextWord)
         return res.status(410).json(head);
       currentWord = await LanguageService.getWordByOriginal(db,req.language.id,head.nextWord);
       await LanguageService.setHead(req.app.get('db'),req.language.id,currentWord.next);//set head to next word
