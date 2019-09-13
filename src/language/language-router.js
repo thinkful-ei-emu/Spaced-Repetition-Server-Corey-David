@@ -48,6 +48,7 @@ languageRouter
     
     LanguageService.getHeadWord(req.app.get('db'),req.user.id)
       .then(result=>{
+
         return res.status(200).json(result);
 
       }).catch(error=>next(error));
@@ -64,6 +65,7 @@ languageRouter
     try{
       let head = await LanguageService.getHeadWord(db,req.user.id);
       currentWord = await LanguageService.getWordByOriginal(db,req.language.id,head.nextWord);
+      currentWord.next = currentWord.next === null ? 1:currentWord.next;//this line resets the head to 1 when game is over
       await LanguageService.setHead(req.app.get('db'),req.language.id,currentWord.next);//set head to next word
       isCorrect = currentWord.translation.toLowerCase() === guess.toLowerCase();
       if(isCorrect){
