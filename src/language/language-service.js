@@ -29,7 +29,7 @@ const LanguageService = {
       .where({ language_id });
   },
   getWordByOriginal(db,language_id,original){
-    return db('word').select('*').where({original}).first();
+    return db('word').select('*').where({original,language_id}).first();
   },
   getHeadWord(db,user_id){//returns word corrently set as head
     return db('language')

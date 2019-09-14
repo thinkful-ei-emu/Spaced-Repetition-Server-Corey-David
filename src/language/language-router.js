@@ -71,6 +71,8 @@ languageRouter
       if(isCorrect){
         currentWord.memory_value *= 2;
         currentWord.correct_count++;
+        /* req.language.total_score++;
+        LanguageService.updateLanguage(db,req.language.id,req.language); */
       }
       else{
         currentWord.memory_value = 1;
