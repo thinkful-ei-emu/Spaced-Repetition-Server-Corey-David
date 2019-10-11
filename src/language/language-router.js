@@ -98,7 +98,7 @@ languageRouter
       .then(result=>{
       //todo check if valid response
         
-        result.totalScore = result.wordCorrectCount + result.wordIncorrectCount;
+        result.totalScore = req.language.totalScore;
         result.answer = currentWord.translation;
         result.isCorrect = isCorrect;
         return res.status(200).json(result);

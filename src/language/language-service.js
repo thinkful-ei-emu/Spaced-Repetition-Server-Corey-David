@@ -31,7 +31,7 @@ const LanguageService = {
   getWordByOriginal(db,language_id,original){
     return db('word').select('*').where({original,language_id}).first();
   },
-  getHeadWord(db,user_id){//returns word corrently set as head
+  getHeadWord(db,user_id){//returns word correctly set as head
     return db('language')
       .innerJoin('word','language.head','word.id' )
       .select('original as nextWord','next','language.total_score as totalScore','correct_count as wordCorrectCount', 'incorrect_count as wordIncorrectCount')
