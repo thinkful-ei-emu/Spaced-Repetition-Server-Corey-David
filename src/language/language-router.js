@@ -63,7 +63,6 @@ languageRouter
     if(!guess)
       return res.status(400).json({error:'Missing Guess'});
     try{
-      debugger;
       let head = await LanguageService.getHeadWord(db,req.user.id);
       currentWord = await LanguageService.getWordByOriginal(db,req.language.id,head.nextWord);
       //currentWord.next = currentWord.next === null ? 1:currentWord.next;//this line resets the head to 1 when game is over
@@ -93,12 +92,15 @@ languageRouter
     }
     catch(err){
       next(err);
-    }
+    } 
+
+
     LanguageService.getHeadWord(req.app.get('db'),req.user.id)
       .then(result=>{
+       
       //todo check if valid response
         
-        result.totalScore = req.language.totalScore;
+        result.totalScore = req.language.total_score;
         result.answer = currentWord.translation;
         result.isCorrect = isCorrect;
         return res.status(200).json(result);
